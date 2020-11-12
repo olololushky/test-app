@@ -5,14 +5,19 @@ import { Redirect } from 'react-router-dom';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
-const App = () => {
-  return (
-    <div>
-      <Header></Header>
-      <Redirect exact from="/" to="/users" />
-      <Users></Users>
-    </div>
-  );
-};
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header></Header>
+        <Redirect exact from="/" to="/users" />
+        <Users></Users>
+      </div>
+    );
+  }
+  componentDidCatch(error) {
+    console.log('error');
+  }
+}
 
 export default App;

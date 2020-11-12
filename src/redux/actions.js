@@ -6,6 +6,10 @@ import {
   REQUEST,
   REMOVE_USER,
   EDIT_USER,
+  ADD_USER,
+  FILTER_BY_GENDER_MALE,
+  FILTER_BY_GENDER_FEMALE,
+  FILTER_BY_AGE,
 } from './constants';
 
 export const loadUsers = (params) => async (dispatch, getState) => {
@@ -24,7 +28,25 @@ export const removeUser = (userId) => ({
   payload: { userId },
 });
 
-export const editUser = (userData) => ({
+export const editUser = (user) => ({
   type: EDIT_USER,
-  payload: { userData },
+  payload: { user },
+});
+
+export const addUser = (user) => ({
+  type: ADD_USER,
+  payload: { user },
+  generateId: ['userId'],
+});
+
+export const filterByMale = () => ({
+  type: FILTER_BY_GENDER_MALE,
+});
+
+export const filterByFemale = () => ({
+  type: FILTER_BY_GENDER_FEMALE,
+});
+
+export const filterByAge = () => ({
+  type: FILTER_BY_AGE,
 });

@@ -1,17 +1,24 @@
 import React from 'react';
-import produce from 'immer';
 
-const InputText = ({ value, typeOfValue, typeOfInput = null, onChange }) => {
+const InputText = ({
+  value,
+  typeOfValue,
+  typeOfInput = null,
+  onChange,
+  accessToAnObject,
+  required = false,
+}) => {
   return (
     <div className="form-group">
       <label htmlFor={typeOfValue}>{typeOfValue}</label>
       <input
         type={typeOfInput}
         className="form-control"
+        required={required}
         id={typeOfValue}
         value={value}
         placeholder={`Edit ${typeOfValue}`}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(accessToAnObject(e.target.value))}
       />
     </div>
   );

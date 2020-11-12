@@ -42,7 +42,7 @@ const User = ({ user, removeUser }) => {
             }}
             className="card-text"
           >
-            Phone: {user.phone} <br />
+            Phone: {user.phone || 'No Phone'} <br />
           </p>
           <button
             type="button"
@@ -60,7 +60,12 @@ const User = ({ user, removeUser }) => {
             Edit User
           </button>
 
-          <ModalForm show={show} handleClose={handleClose} user={user} />
+          <ModalForm
+            show={show}
+            handleClose={handleClose}
+            user={user}
+            typeOfAction="editUser"
+          />
         </div>
       </div>
     </div>

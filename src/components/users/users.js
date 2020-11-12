@@ -9,7 +9,7 @@ import {
 import { createStructuredSelector } from 'reselect';
 import User from '../user';
 
-const Users = ({ users, loading, loaded, loadUsers }) => {
+const Users = ({ users, loading, loaded, loadUsers, error }) => {
   useEffect(() => {
     if (!loading && !loaded) {
       loadUsers();
@@ -28,6 +28,7 @@ const Users = ({ users, loading, loaded, loadUsers }) => {
         {users
           ? users.map((user) => <User user={user} key={user.login.uuid} />)
           : null}
+        {!loading && loaded && !users.length ? <h3>Нет совпадений</h3> : null}
       </div>
     </div>
   );
