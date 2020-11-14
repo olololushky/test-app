@@ -110,6 +110,7 @@ export default produce((draft = initialState, action) => {
             new Date().getFullYear() -
             new Date(Date.parse(payload.user.dob.date)).getFullYear(),
         },
+        gender: payload.user.name.title === 'Mr' ? 'male' : 'female',
       };
 
       break;
@@ -130,6 +131,7 @@ export default produce((draft = initialState, action) => {
                   new Date(Date.parse(payload.user.dob.date)).getFullYear(),
               },
               login: { ...payload.user.login, uuid: userId },
+              gender: payload.user.name.title === 'Mr' ? 'male' : 'female',
             },
           ],
         },
@@ -142,7 +144,7 @@ export default produce((draft = initialState, action) => {
     }
     case FILTER_BY_GENDER_FEMALE: {
       draft.entities.results = draft.entities.results.filter(
-        (user) => user.gender === 'famale'
+        (user) => user.gender === 'female'
       );
       break;
     }

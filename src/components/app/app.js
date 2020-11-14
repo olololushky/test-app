@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../header';
 import Users from '../users';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -10,8 +10,11 @@ class App extends React.Component {
     return (
       <div>
         <Header></Header>
-        <Redirect exact from="/" to="/users" />
-        <Users></Users>
+        <Switch>
+          <Redirect exact from="/" to="/users" />
+          <Route path="/users" component={Users} />
+          <Route path="/" component={() => '404 - not found'} />
+        </Switch>
       </div>
     );
   }

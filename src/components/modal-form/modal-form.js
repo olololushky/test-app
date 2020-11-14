@@ -5,6 +5,7 @@ import InputSelect from './input-select';
 import { connect } from 'react-redux';
 import { editUser, addUser } from '../../redux/actions';
 import produce from 'immer';
+import { useHistory } from 'react-router-dom';
 
 const ModalForm = ({
   show,
@@ -15,6 +16,7 @@ const ModalForm = ({
   typeOfAction,
 }) => {
   const [userData, setUserData] = useState(user);
+  let history = useHistory();
 
   const onSubmit =
     typeOfAction === 'editUser'
@@ -28,7 +30,13 @@ const ModalForm = ({
         }
       : null;
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal
+      show={show}
+      onHide={() => {
+        handleClose();
+        history.push('/users');
+      }}
+    >
       <Modal.Header closeButton>
         <Modal.Title>Edit User's Info</Modal.Title>
       </Modal.Header>
@@ -76,19 +84,6 @@ const ModalForm = ({
             accessToAnObject={(eventValue) =>
               produce((draft) => {
                 draft.name.last = eventValue;
-                return draft;
-              })
-            }
-          />
-
-          <InputSelect
-            value={userData.gender}
-            options={['', 'female', 'male']}
-            typeOfValue="Gender"
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.gender = eventValue;
                 return draft;
               })
             }
@@ -174,7 +169,10 @@ const ModalForm = ({
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={handleClose}
+            onClick={() => {
+              handleClose();
+              history.push('/users');
+            }}
           >
             Close
           </button>
