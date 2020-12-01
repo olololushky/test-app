@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from 'immer'
 import {
   LOAD_USERS,
   REQUEST,
@@ -10,7 +10,7 @@ import {
   FILTER_BY_GENDER_MALE,
   FILTER_BY_GENDER_FEMALE,
   FILTER_BY_AGE,
-} from '../constants';
+} from '../constants'
 
 const initialState = {
   loading: false,
@@ -63,46 +63,51 @@ const initialState = {
       date: '',
     },
   },
-  entities: { results: [] },
-};
+  entities: { results: [], filteredResults: [] },
+}
 
 export default produce((draft = initialState, action) => {
-  const { type, payload, userId } = action;
+  const { type, payload, userId } = action
 
   switch (type) {
     case LOAD_USERS + REQUEST: {
-      draft.error = null;
-      draft.loading = true;
-      break;
+      draft.error = null
+      draft.loading = true
+      break
     }
     case LOAD_USERS + SUCCESS: {
-      draft.loading = false;
-      draft.loaded = true;
+      draft.loading = false
+      draft.loaded = true
       draft.entities = {
         ...draft.entities,
         ...action.response,
-      };
-      break;
+        filteredResults: [...action.response.results],
+      }
+      break
     }
     case LOAD_USERS + FAILURE: {
-      draft.loading = false;
-      draft.loaded = false;
-      draft.error = action.err;
-      break;
+      draft.loading = false
+      draft.loaded = false
+      draft.error = action.err
+      break
     }
     case REMOVE_USER: {
-      const x = draft.entities.results.findIndex(
-        (user) => user.login.uuid === payload.userId
-      );
-      draft.entities.results.splice(x, 1);
-      break;
+      return {
+        ...draft,
+        entities: {
+          ...draft.entities,
+          filteredResults: draft.entities.filteredResults.filter(
+            (user) => user.login.uuid !== payload.userId
+          ),
+        },
+      }
     }
     case EDIT_USER: {
-      const index = draft.entities.results.findIndex(
+      const index = draft.entities.filteredResults.findIndex(
         (user) => user.login.uuid === payload.user.login.uuid
-      );
+      )
 
-      draft.entities.results[index] = {
+      draft.entities.filteredResults[index] = {
         ...payload.user,
         dob: {
           ...payload.user.dob,
@@ -111,17 +116,17 @@ export default produce((draft = initialState, action) => {
             new Date(Date.parse(payload.user.dob.date)).getFullYear(),
         },
         gender: payload.user.name.title === 'Mr' ? 'male' : 'female',
-      };
+      }
 
-      break;
+      break
     }
     case ADD_USER:
       return {
         ...draft,
         entities: {
           ...draft.entities,
-          results: [
-            ...draft.entities.results,
+          filteredResults: [
+            ...draft.entities.filteredResults,
             {
               ...payload.user,
               dob: {
@@ -135,26 +140,26 @@ export default produce((draft = initialState, action) => {
             },
           ],
         },
-      };
+      }
     case FILTER_BY_GENDER_MALE: {
-      draft.entities.results = draft.entities.results.filter(
+      draft.entities.filteredResults = draft.entities.results.filter(
         (user) => user.gender === 'male'
-      );
-      break;
+      )
+      break
     }
     case FILTER_BY_GENDER_FEMALE: {
-      draft.entities.results = draft.entities.results.filter(
+      draft.entities.filteredResults = draft.entities.results.filter(
         (user) => user.gender === 'female'
-      );
-      break;
+      )
+      break
     }
     case FILTER_BY_AGE: {
-      draft.entities.results = draft.entities.results.filter(
+      draft.entities.filteredResults = draft.entities.results.filter(
         (user) => user.dob.age > 30
-      );
-      break;
+      )
+      break
     }
     default:
-      return draft;
+      return draft
   }
-});
+})

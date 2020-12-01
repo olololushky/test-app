@@ -1,0 +1,9 @@
+.card-container {
+  width: 100%;
+  justify-content: space-around;
+  margin-left: 0;
+}
+
+.spinner {
+  margin: 0, auto;
+}

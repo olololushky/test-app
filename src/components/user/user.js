@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { removeUser } from '../../redux/actions';
-import ModalForm from '../modal-form';
-import { Link, Route } from 'react-router-dom';
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { removeUser } from '../../redux/actions'
+import ModalForm from '../modal-form'
+import { Link, Route } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import './style.css'
 
 const User = ({ user, removeUser }) => {
-  const [show, setShow] = useState(false);
+  const [showModalForm, setShowModalForm] = useState(false)
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const fill =
-    user.gender === 'male'
-      ? 'blue'
-      : user.gender === 'female'
-      ? 'pink'
-      : 'white';
+  const handleClose = () => setShowModalForm(false)
+  const handleShow = () => setShowModalForm(true)
+  const fill = () => {
+    switch (user.gender) {
+      case 'male':
+        return 'blue'
+      case 'female':
+        return 'pink'
+      default:
+        return 'white'
+    }
+  }
+  const userName = `${user.name.title} ${user.name.first} ${user.name.last}`
+  const birthYear = new Date(user.dob.date).getFullYear() || 'Before our age'
   return (
-    <div className="card" style={{ flexBasis: '250px', marginBottom: '20px' }}>
+    <div className="card">
       <div className="card-body">
-        <h5 className="card-title">
-          {`${user.name.title} ${user.name.first} ${user.name.last}`}
+        <h5 className="card-title header">
+          {userName}
           <svg style={{ height: '20px', width: '20px' }}>
-            <circle cx="10" cy="10" r="10" fill={fill} />
+            <circle cx="10" cy="10" r="10" fill={fill()} />
           </svg>
         </h5>
         <h6 className="card-subtitle mb-2 text-muted">{user.login.username}</h6>
@@ -30,16 +38,13 @@ const User = ({ user, removeUser }) => {
         <li className="list-group-item">
           Email: <a href={`mailto:${user.email}`}>{user.email} </a>
         </li>
-        <li className="list-group-item">
-          Birth year: {new Date(user.dob.date).getFullYear()}{' '}
-        </li>
-        <li className="list-group-item">Age: {user.dob.age} </li>
-        <li className="list-group-item">Country: {user.location.country}</li>
+        <li className="list-group-item">Birth year: {birthYear}</li>
+        <li className="list-group-item">Age: {user.dob.age || 'Too old'} </li>
+        <li className="list-group-item">Country: {user.location.country || 'Citizen of the world'}</li>
         <li
-          className="list-group-item"
-          style={{
-            color: Number(user.phone.slice(-1)) % 2 ? 'green' : 'red',
-          }}
+          className={`list-group-item ${
+            Number(user.phone.slice(-1)) % 2 ? 'green' : 'red'
+          }`}
         >
           Phone: {user.phone || 'No Phone'} <br />
         </li>
@@ -50,17 +55,17 @@ const User = ({ user, removeUser }) => {
           </a>
         </li>
       </ul>
-      <div className="card-footer">
+      <div className="card-footer footer">
         <button
           type="button"
-          className="btn btn-danger"
-          onClick={() => removeUser(user.login.uuid)}
+          className="btn btn-danger button"
+          onClick={() => removeUser(user && user.login && user.login.uuid)}
         >
           Delete User
         </button>
 
         <Link
-          className="btn btn-primary"
+          className="btn btn-primary button"
           to={`/users/${user.login.uuid}`}
           onClick={handleShow}
           style={{ marginLeft: '10px' }}
@@ -72,7 +77,7 @@ const User = ({ user, removeUser }) => {
           path={`/users/${user.login.uuid}`}
           render={() => (
             <ModalForm
-              show={show}
+              show={showModalForm}
               handleClose={handleClose}
               user={user}
               typeOfAction="editUser"
@@ -81,7 +86,17 @@ const User = ({ user, removeUser }) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default connect(null, { removeUser })(User);
+User.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      first: PropTypes.string.isRequired,
+      last: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+}
+
+export default connect(null, { removeUser })(User)

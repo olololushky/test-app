@@ -17,7 +17,6 @@ export const loadUsers = (params) => async (dispatch, getState) => {
   try {
     const response = await serviceMethod(params);
     setTimeout(dispatch, 1000, { type: LOAD_USERS + SUCCESS, response });
-    //dispatch({ type: LOAD_USERS + SUCCESS, response });
   } catch (err) {
     dispatch({ type: LOAD_USERS + FAILURE, err });
   }

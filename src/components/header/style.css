@@ -1,0 +1,6 @@
+.dropdown-group {
+  position: absolute;
+  left: 50%;
+  width: 100px;
+  margin-left: -50px
+}

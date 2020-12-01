@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+ 
+.button {
+  margin-left: 10px;
+}
+
+.card-deck .card {
+  max-width: 300px;
+  flex-basis: 250px;
+  margin-bottom: 20px;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}

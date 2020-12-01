@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputText = ({
+const InputSelect = ({
   value,
   typeOfValue,
   typeOfInput = null,
@@ -27,4 +27,4 @@ const InputText = ({
   );
 };
 
-export default InputText;
+export default InputSelect;

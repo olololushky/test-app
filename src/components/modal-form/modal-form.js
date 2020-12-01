@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import InputText from './input-text';
-import InputSelect from './input-select';
-import { connect } from 'react-redux';
-import { editUser, addUser } from '../../redux/actions';
-import produce from 'immer';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Modal } from 'react-bootstrap'
+import InputText from './input-text'
+import InputSelect from './input-select'
+import { connect } from 'react-redux'
+import { editUser, addUser } from '../../redux/actions'
+import produce from 'immer'
+import { useHistory } from 'react-router-dom'
 
 const ModalForm = ({
   show,
@@ -15,37 +15,50 @@ const ModalForm = ({
   addUser,
   typeOfAction,
 }) => {
-  const [userData, setUserData] = useState(user);
-  let history = useHistory();
+  const [userData, setUserData] = useState(user)
+  let history = useHistory()
 
-  const onSubmit =
-    typeOfAction === 'editUser'
-      ? () => {
-          editUser(userData);
+  const onSubmit = () => {
+    switch (typeOfAction) {
+      case 'editUser':
+        return () => {editUser(userData)}
+      case 'addUser':
+        return () => {
+          addUser(userData)
+          setUserData(user)
         }
-      : typeOfAction === 'addUser'
-      ? () => {
-          addUser(userData);
-          setUserData(user);
-        }
-      : null;
+      default:
+        break
+    }
+  }
+  const onHide = () => {
+    handleClose()
+    history.push('/users')
+  }
+  const modalHeader = () => {
+    switch (typeOfAction) {
+      case 'editUser':
+        return "Edit User's Info"
+      case 'addUser':
+        return 'Add User'
+      default:
+        break
+    }
+  }
   return (
     <Modal
       show={show}
-      onHide={() => {
-        handleClose();
-        history.push('/users');
-      }}
+      onHide={onHide}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Edit User's Info</Modal.Title>
+        <Modal.Title>{modalHeader()}</Modal.Title>
       </Modal.Header>
 
       <form
         onSubmit={(event) => {
-          event.preventDefault();
-          handleClose();
-          onSubmit();
+          event.preventDefault()
+          onHide()
+          onSubmit()()
         }}
       >
         <Modal.Body>
@@ -57,8 +70,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.name.title = eventValue;
-                return draft;
+                draft.name.title = eventValue
+                return draft
               })
             }
           />
@@ -70,8 +83,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.name.first = eventValue;
-                return draft;
+                draft.name.first = eventValue
+                return draft
               })
             }
           />
@@ -83,8 +96,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.name.last = eventValue;
-                return draft;
+                draft.name.last = eventValue
+                return draft
               })
             }
           />
@@ -96,8 +109,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.login.username = eventValue;
-                return draft;
+                draft.login.username = eventValue
+                return draft
               })
             }
           />
@@ -109,8 +122,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.email = eventValue;
-                return draft;
+                draft.email = eventValue
+                return draft
               })
             }
           />
@@ -121,9 +134,9 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.dob.date = eventValue;
+                draft.dob.date = eventValue
 
-                return draft;
+                return draft
               })
             }
           />
@@ -134,8 +147,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.location.country = eventValue;
-                return draft;
+                draft.location.country = eventValue
+                return draft
               })
             }
           />
@@ -146,8 +159,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.phone = eventValue;
-                return draft;
+                draft.phone = eventValue
+                return draft
               })
             }
           />
@@ -159,8 +172,8 @@ const ModalForm = ({
             onChange={setUserData}
             accessToAnObject={(eventValue) =>
               produce((draft) => {
-                draft.login.password = eventValue;
-                return draft;
+                draft.login.password = eventValue
+                return draft
               })
             }
           />
@@ -170,8 +183,8 @@ const ModalForm = ({
             type="button"
             className="btn btn-secondary"
             onClick={() => {
-              handleClose();
-              history.push('/users');
+              handleClose()
+              history.push('/users')
             }}
           >
             Close
@@ -180,101 +193,7 @@ const ModalForm = ({
         </Modal.Footer>
       </form>
     </Modal>
-  );
-};
+  )
+}
 
-export default connect(null, { editUser, addUser })(ModalForm);
-
-/*
-
-      
-  //  const [title, setTitle] = useState(user.name.title);
-  //  const [name, setName] = useState(user.name.first);
-  //  const [surname, setSurname] = useState(user.name.last);
-  //  const [gender, setGender] = useState(user.gender);
- // const [username, setUsername] = useState(user.login.username);
-  //const [email, setEmail] = useState(user.email);
- // const [country, setCountry] = useState(user.location.country);
-//  const [phone, setPhone] = useState(user.phone);
- // const [password, setPassword] = useState(user.login.password);
-        <div className="form-group">
-            <label htmlFor="title">Title</label>
-            <select
-              className="form-control"
-              id="title"
-              value={userData.name.title}
-              placeholder="Edit Title"
-              onChange={(e) =>
-                setUserData(
-                  produce((draft) => {
-                    draft.name.title = e.target.value;
-                    return draft;
-                  })
-                )
-              }
-            >
-              <option>Mr</option>
-              <option>Mrs</option>
-              <option>Ms</option>
-              <option>Miss</option>
-              <option>Madame</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              className="form-control"
-              id="name"
-              value={userData.name.first}
-              placeholder="Edit Name"
-              onChange={(e) =>
-                setUserData(
-                  produce((draft) => {
-                    draft.name.first = e.target.value;
-                    return draft;
-                  })
-                )
-              }
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="surname">Surame</label>
-            <input
-              className="form-control"
-              id="surname"
-              value={userData.name.last}
-              placeholder="Edit Surname"
-              onChange={(e) =>
-                setUserData(
-                  produce((draft) => {
-                    draft.name.last = e.target.value;
-                    return draft;
-                  })
-                )
-              }
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="gender">Gender</label>
-            <select
-              className="form-control"
-              id="gender"
-              value={userData.gender}
-              placeholder="Edit Genrder"
-              onChange={(e) =>
-                setUserData(
-                  produce((draft) => {
-                    draft.gender = e.target.value;
-                    return draft;
-                  })
-                )
-              }
-            >
-              <option>Female</option>
-              <option>Male</option>
-            </select>
-          </div>  
-        
-        
-        */
+export default connect(null, { editUser, addUser })(ModalForm)
