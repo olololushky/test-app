@@ -1,16 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { removeUser } from '../../redux/actions'
-import ModalForm from '../modal-form'
-import { Link, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './style.css'
 
-const User = ({ user, removeUser }) => {
-  const [showModalForm, setShowModalForm] = useState(false)
-
-  const handleClose = () => setShowModalForm(false)
-  const handleShow = () => setShowModalForm(true)
+const User = ({ user, removeUser, handleShow }) => {
   const fill = () => {
     switch (user.gender) {
       case 'male':
@@ -40,7 +35,9 @@ const User = ({ user, removeUser }) => {
         </li>
         <li className="list-group-item">Birth year: {birthYear}</li>
         <li className="list-group-item">Age: {user.dob.age || 'Too old'} </li>
-        <li className="list-group-item">Country: {user.location.country || 'Citizen of the world'}</li>
+        <li className="list-group-item">
+          Country: {user.location.country || 'Citizen of the world'}
+        </li>
         <li
           className={`list-group-item ${
             Number(user.phone.slice(-1)) % 2 ? 'green' : 'red'
@@ -72,18 +69,6 @@ const User = ({ user, removeUser }) => {
         >
           Edit User
         </Link>
-
-        <Route
-          path={`/users/${user.login.uuid}`}
-          render={() => (
-            <ModalForm
-              show={showModalForm}
-              handleClose={handleClose}
-              user={user}
-              typeOfAction="editUser"
-            />
-          )}
-        />
       </div>
     </div>
   )
