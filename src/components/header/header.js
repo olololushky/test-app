@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import { initialUserSelector } from '../../redux/selectors'
 import { createStructuredSelector } from 'reselect'
 import { Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap'
-import { filterByMale, filterByAge, filterByFemale } from '../../redux/actions'
+import { filterByMale, filterByAge, filterByFemale, resetFilter } from '../../redux/actions'
 import { Link, Route, useLocation } from 'react-router-dom'
 import './style.css'
 
-const Header = ({ initialUser, filterByMale, filterByFemale, filterByAge }) => {
+const Header = ({ initialUser, filterByMale, filterByFemale, filterByAge, resetFilter }) => {
   const [showModalForm, setShowModalForm] = useState(false)
   const handleClose = () => setShowModalForm(false)
   const handleShow = () => setShowModalForm(true)
@@ -42,7 +42,7 @@ const Header = ({ initialUser, filterByMale, filterByFemale, filterByAge }) => {
   return (
     <div>
       <nav className="navbar navbar-light bg-light">
-        <Link to="/" className="navbar-brand mb-0 h1">
+        <Link to="/" className="navbar-brand mb-0 h1" onClick={resetFilter}>
           Test React App
         </Link>
 
@@ -91,4 +91,5 @@ export default connect(mapStateToProps, {
   filterByMale,
   filterByAge,
   filterByFemale,
+  resetFilter
 })(Header)

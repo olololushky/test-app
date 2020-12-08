@@ -10,6 +10,8 @@ import {
   FILTER_BY_GENDER_MALE,
   FILTER_BY_GENDER_FEMALE,
   FILTER_BY_AGE,
+  SEARCH_USERS,
+  RESET_FILTER,
 } from './constants';
 
 export const loadUsers = (params) => async (dispatch, getState) => {
@@ -48,4 +50,13 @@ export const filterByFemale = () => ({
 
 export const filterByAge = () => ({
   type: FILTER_BY_AGE,
+});
+
+export const searchUsers = (searchParam) => ({
+  type: SEARCH_USERS,
+  payload: {searchParam}
+})
+
+export const resetFilter = () => ({
+  type: RESET_FILTER,
 });

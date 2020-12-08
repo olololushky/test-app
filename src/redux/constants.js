@@ -8,3 +8,5 @@ export const FILTER_BY_AGE = 'FILTER_BY_AGE';
 export const REQUEST = '_REQUEST';
 export const SUCCESS = '_SUCCESS';
 export const FAILURE = '_FAILURE';
+export const SEARCH_USERS = 'SEARCH_USERS';
+export const RESET_FILTER = 'RESET_FILTER';

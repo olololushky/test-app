@@ -1,11 +1,15 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { removeUser } from '../../redux/actions'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './style.css'
+import ModalDelete from './modalDelete'
 
 const User = ({ user, removeUser, handleShow }) => {
+  const [showModalDelete, setShowModalDelete] = useState(false)
+
+  const handleCloseModalDelete = () => setShowModalDelete(false)
+  const handleShowModalDelete = () => setShowModalDelete(true)
+
   const fill = () => {
     switch (user.gender) {
       case 'male':
@@ -56,7 +60,9 @@ const User = ({ user, removeUser, handleShow }) => {
         <button
           type="button"
           className="btn btn-danger button"
-          onClick={() => removeUser(user && user.login && user.login.uuid)}
+          onClick={() => {
+            handleShowModalDelete()
+          }}
         >
           Delete User
         </button>
@@ -69,6 +75,11 @@ const User = ({ user, removeUser, handleShow }) => {
         >
           Edit User
         </Link>
+        <ModalDelete
+          show={showModalDelete}
+          handleCloseModalDelete={handleCloseModalDelete}
+          user={user}
+        />
       </div>
     </div>
   )
@@ -84,4 +95,4 @@ User.propTypes = {
   }).isRequired,
 }
 
-export default connect(null, { removeUser })(User)
+export default User
