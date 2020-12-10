@@ -16,7 +16,7 @@ const ModalForm = ({
   addUser,
   typeOfAction,
 }) => {
-  const [userData, setUserData] = useState(user)
+  const [userData, setUserData] = useState(user) //добавление в state юзера пришедшего в пропах, организация изменения его свойств
   let history = useHistory()
 
   const onSubmit = () => {
@@ -26,7 +26,7 @@ const ModalForm = ({
       case 'addUser':
         return () => {
           addUser(userData)
-          setUserData(user)
+          setUserData(user) // при добавлении нового пользователя так же происходит сброс данных в state
         }
       default:
         break
@@ -36,7 +36,7 @@ const ModalForm = ({
     handleClose()
     history.push('/users')
   }
-  const modalHeader = () => {
+  const modalHeader = () => { //изменение заголовка мобильного окна в зависимости от типа действия
     switch (typeOfAction) {
       case 'editUser':
         return "Edit User's Info"

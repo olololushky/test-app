@@ -3,7 +3,6 @@ import React from 'react';
 const InputSelect = ({
   value,
   typeOfValue,
-  typeOfInput = null,
   options,
   onChange,
   accessToAnObject,

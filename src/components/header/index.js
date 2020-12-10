@@ -9,7 +9,7 @@ import { Link, Route, useLocation } from 'react-router-dom'
 import './style.css'
 
 const Header = ({ initialUser, filterByMale, filterByFemale, filterByAge, resetFilter }) => {
-  const [showModalForm, setShowModalForm] = useState(false)
+  const [showModalForm, setShowModalForm] = useState(false) //индикатор открытия модальной формы добавления пользователя и обработчики
   const handleClose = () => setShowModalForm(false)
   const handleShow = () => setShowModalForm(true)
 
@@ -17,7 +17,7 @@ const Header = ({ initialUser, filterByMale, filterByFemale, filterByAge, resetF
 
   useEffect(() => {
     if (location.pathname.endsWith('/add-user')) {
-      handleShow()
+      handleShow() //если при загрузке страницы в браузерной строке присутсвует "add-user", происходит открытие формы добавления пользователя
     }
   })
 
@@ -37,7 +37,7 @@ const Header = ({ initialUser, filterByMale, filterByFemale, filterByAge, resetF
       title: 'Older Than 30',
       onClick: filterByAge,
     },
-  ]
+  ] //варианты фильтрации
 
   return (
     <div>

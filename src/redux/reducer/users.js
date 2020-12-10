@@ -14,7 +14,7 @@ import {
   RESET_FILTER,
 } from '../constants'
 import {initialState} from '../../config/init-constants'
-import {findMatch} from '../../service/findMatch'
+import {findMatch} from '../../service/find-match'
 
 
 export default produce((draft = initialState, action) => {

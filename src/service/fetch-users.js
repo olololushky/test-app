@@ -1,5 +1,4 @@
-const serviceMethod = async (param) => {
-  //  const url = 'https://jsonplaceholder.typicode.com/users';
+const serviceMethod = async (param) => { //сервисный файл для загрузки данных о пользователях
   const url = 'https://randomuser.me/api/?results=10';
   const response = await fetch(url);
 

@@ -1,6 +1,21 @@
-# Getting Started with Create React App
+Простое приложение, созданное с помощью React JavaScript library. 
+Приложение загружает с удаленного сервера (randomuser.me) данные пользователей, и отрисовывает карточки с данными.
+В проекте присуствуют функции хранения/редактрования/удаления/добавления пользователей, реализованное с помощью Redux.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Quick start
+
+Для быстрого запуска проекта - перейдите в консоли в папку с проектом и введите команды:
+
+npm install
+npm start
+
+У Вас должен быть установлен Node Package Manager 
+
+## Run tests
+
+Для запуска тестов, находясь в консоли в папке с проектом, введите команду:
+
+npm test
 
 ## Available Scripts
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './style.css'
 import ModalDelete from './modal-delete'
 
-const User = ({ user, removeUser, handleShow }) => {
+const User = ({ user, handleShow }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
 
   const handleCloseModalDelete = () => setShowModalDelete(false)
@@ -19,7 +19,7 @@ const User = ({ user, removeUser, handleShow }) => {
       default:
         return 'white'
     }
-  }
+  } //цвет заполнения круга сигнализируещего о поле юзера
   const userName = `${user.name.title} ${user.name.first} ${user.name.last}`
   const birthYear = new Date(user.dob.date).getFullYear() || 'Before our age'
   return (
@@ -46,6 +46,7 @@ const User = ({ user, removeUser, handleShow }) => {
           className={`list-group-item ${
             Number(user.phone.slice(-1)) % 2 ? 'green' : 'red'
           }`}
+          // изменение цвета телефонного номера в зависимости от того четное число на конце или нет
         >
           Phone: {user.phone || 'No Phone'} <br />
         </li>
@@ -61,7 +62,7 @@ const User = ({ user, removeUser, handleShow }) => {
           type="button"
           className="btn btn-danger button"
           onClick={() => {
-            handleShowModalDelete()
+            handleShowModalDelete() //при нажатии отображается модальное окно с информацией об удалении
           }}
         >
           Delete User

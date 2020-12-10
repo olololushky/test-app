@@ -4,11 +4,8 @@ import App from './components/app';
 import './index.css';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-
 import store from './redux/store';
 
-// DEV ONLY!!!
-window.store = store;
 
 ReactDOM.render(
   <BrowserRouter>

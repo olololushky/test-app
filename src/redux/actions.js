@@ -1,4 +1,4 @@
-import serviceMethod from '../service/fetchusers';
+import serviceMethod from '../service/fetch-users';
 import {
   LOAD_USERS,
   FAILURE,

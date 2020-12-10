@@ -13,14 +13,13 @@ import './style.css'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import ModalForm from '../modal-form'
 
-const Users = ({ users, loading, loaded, loadUsers, initialUser }) => {
+const Users = ({ users, loading, loaded, loadUsers }) => {
   useEffect(() => {
     if (!loading && !loaded) {
-      loadUsers()
+      loadUsers() //если в данный момент нет загруженных данных пользователей и не происходит загрузка, тогда система начинает грузить юзеров
     }
   })
-  const [showModalForm, setShowModalForm] = useState(false)
-
+  const [showModalForm, setShowModalForm] = useState(false) //индикатор открытия модальной формы редактирования юзера и обработчики
   const handleClose = () => setShowModalForm(false)
   const handleShow = () => setShowModalForm(true)
   return (
@@ -37,10 +36,13 @@ const Users = ({ users, loading, loaded, loadUsers, initialUser }) => {
         users.map((user) => (
           <User user={user} key={user.login.uuid} handleShow={handleShow} />
         ))}
+      {/* отрисовка корточек пользователей */}
       {!loading && loaded && !users.length ? <h3>Нет совпадений</h3> : ''}
+      {/* при отстутвии пользователей соотсветусющих критериям поиска отображается информуция об отсутствии совпадений */}
       <Switch>
         {users.map((user) => (
-          <Route
+          <Route 
+          // роуты для юзеров при налии id в URL
             key={user.login.uuid}
             path={`/users/${user.login.uuid}`}
             render={() => (
@@ -54,7 +56,8 @@ const Users = ({ users, loading, loaded, loadUsers, initialUser }) => {
           />
         ))}
         <Route path="/users/add-user" />
-        <Redirect to="/users" />
+        <Redirect to="/users" /> 
+        {/* если совпадений не найдено - происходит редирект на страницу /users */}
       </Switch>
     </div>
   )

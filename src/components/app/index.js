@@ -8,10 +8,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header></Header>
+        <Header></Header>{' '}
         <Search />
         <Switch>
           <Redirect exact from="/" to="/users" />
+          {/* При переходе на начальную страницу происходит редирект на страницу пользователей */}
           <Route path="/users" component={Users} />
           <Route path="/" component={() => '404 - not found'} />
         </Switch>

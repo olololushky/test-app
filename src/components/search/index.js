@@ -15,7 +15,7 @@ const Search = ({ searchUsers, resetFilter }) => {
           if (value) {
             searchUsers(value)
           } else { resetFilter()}
-          
+          // при нажатии клавиши Enter система фильтрует пользователей с заданными ключевыми словами, если строка пуста - сбрасывает фильтр
         }}
       >
         <Form.Label>Search</Form.Label>
