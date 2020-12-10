@@ -13,60 +13,9 @@ import {
   SEARCH_USERS,
   RESET_FILTER,
 } from '../constants'
+import {initialState} from '../../config/init-constants'
+import {findMatch} from '../../service/findMatch'
 
-const initialState = {
-  loading: false,
-  loaded: false,
-  error: null,
-  initialUser: {
-    cell: '',
-    dob: {
-      age: null,
-      date: '',
-    },
-    email: '',
-    gender: '',
-    id: {
-      name: '',
-      value: '',
-    },
-    location: {
-      city: '',
-      coordinates: { latitude: '', longitude: '' },
-      country: '',
-      postcode: null,
-      state: '',
-      street: { number: null, name: '' },
-      timezone: { offset: '', description: '' },
-    },
-    login: {
-      md5: '',
-      password: '',
-      salt: '',
-      sha1: '',
-      sha256: '',
-      username: '',
-      uuid: '',
-    },
-    name: {
-      first: '',
-      last: '',
-      title: '',
-    },
-    nat: '',
-    phone: '',
-    picture: {
-      large: '',
-      medium: '',
-      thumbnail: '',
-    },
-    registered: {
-      age: null,
-      date: '',
-    },
-  },
-  entities: { results: [], filteredResults: [] },
-}
 
 export default produce((draft = initialState, action) => {
   const { type, payload, userId } = action
@@ -204,16 +153,8 @@ export default produce((draft = initialState, action) => {
     }
 
     case SEARCH_USERS: {
-      const findMatch = (value) => {
-        if (typeof value === 'object' && value !== null) {
-          return Object.values(value).find((val) => findMatch(val))
-        }
-        if (typeof value === 'string' && String(value).includes(payload.searchParam)) {
-          return true
-        }
-      }
       draft.entities.filteredResults = draft.entities.results.filter((user) =>
-        findMatch(user)
+        findMatch(user, payload.searchParam)
       )
 
       break
