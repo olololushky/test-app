@@ -1,15 +1,15 @@
 import React from 'react'
 import Header from '../header'
 import Users from '../users'
-import Search from '../search'
 import { Redirect, Route, Switch } from 'react-router-dom'
+import Toolbar from '../toolbar'
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <Header></Header>{' '}
-        <Search />
+        <Header />
+        <Toolbar />
         <Switch>
           <Redirect exact from="/" to="/users" />
           {/* При переходе на начальную страницу происходит редирект на страницу пользователей */}

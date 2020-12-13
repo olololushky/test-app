@@ -6,7 +6,7 @@ import { searchUsers, resetFilter } from '../../redux/actions'
 
 const Search = ({ searchUsers, resetFilter }) => {
   return (
-    <div>
+    <>
       <Form
         className="form"
         onSubmit={(ev) => {
@@ -14,14 +14,16 @@ const Search = ({ searchUsers, resetFilter }) => {
           ev.preventDefault()
           if (value) {
             searchUsers(value)
-          } else { resetFilter()}
+          } else {
+            resetFilter()
+          }
           // при нажатии клавиши Enter система фильтрует пользователей с заданными ключевыми словами, если строка пуста - сбрасывает фильтр
         }}
       >
         <Form.Label>Search</Form.Label>
         <Form.Control placeholder="Enter keywords" />
       </Form>
-    </div>
+    </>
   )
 }
 

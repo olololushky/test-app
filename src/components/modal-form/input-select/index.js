@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const InputSelect = ({
   value,
@@ -7,21 +7,22 @@ const InputSelect = ({
   onChange,
   accessToAnObject,
   required = false,
+  name,
 }) => (
-    <div className="form-group" data-id="input-select">
-      <label htmlFor={typeOfValue}>{typeOfValue}</label>
-      <select
-        className="form-control"
-        required={required}
-        id={typeOfValue}
-        value={value || ''}
-        onChange={(e) => onChange(accessToAnObject(e.target.value || null))}
-      >
-        {options.map((option, i) => (
-          <option key={i}>{option}</option>
-        ))}
-      </select>
-    </div>
-  );
+  <div className="form-group" data-id="input-select">
+    <label htmlFor={typeOfValue}>{typeOfValue}</label>
+    <select
+      className="form-control"
+      required={required}
+      id={typeOfValue}
+      value={value || ''}
+      onChange={(ev) => onChange(ev, name)}
+    >
+      {options.map((option, i) => (
+        <option key={i}>{option}</option>
+      ))}
+    </select>
+  </div>
+)
 
-export default InputSelect;
+export default InputSelect

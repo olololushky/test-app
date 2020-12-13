@@ -4,9 +4,8 @@ import InputText from './input-text'
 import InputSelect from './input-select'
 import { connect } from 'react-redux'
 import { editUser, addUser } from '../../redux/actions'
-import produce from 'immer'
 import { useHistory } from 'react-router-dom'
-import {titleOptions} from '../../config/constants'
+import { titleOptions } from '../../config/constants'
 
 const ModalForm = ({
   show,
@@ -22,7 +21,9 @@ const ModalForm = ({
   const onSubmit = () => {
     switch (typeOfAction) {
       case 'editUser':
-        return () => {editUser(userData)}
+        return () => {
+          editUser(userData)
+        }
       case 'addUser':
         return () => {
           addUser(userData)
@@ -36,7 +37,8 @@ const ModalForm = ({
     handleClose()
     history.push('/users')
   }
-  const modalHeader = () => { //изменение заголовка мобильного окна в зависимости от типа действия
+  const modalHeader = () => {
+    //изменение заголовка мобильного окна в зависимости от типа действия
     switch (typeOfAction) {
       case 'editUser':
         return "Edit User's Info"
@@ -46,11 +48,18 @@ const ModalForm = ({
         break
     }
   }
+
+  const handleFieldChange = (value, name, type) => {
+    console.log('type: ', value.target.value)
+    setUserData({
+      ...userData,
+      [name]: value.target.value,
+    })
+    console.log(userData)
+  }
+
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-    >
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>{modalHeader()}</Modal.Title>
       </Modal.Header>
@@ -64,119 +73,73 @@ const ModalForm = ({
       >
         <Modal.Body>
           <InputSelect
-            value={userData.name.title}
+            value={userData.title}
             typeOfValue="Title"
             required
             options={titleOptions}
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.name.title = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="title"
           />
 
           <InputText
-            value={userData.name.first}
+            value={userData.name}
             typeOfValue="Name"
             required
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.name.first = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="name"
           />
 
           <InputText
-            value={userData.name.last}
+            value={userData.surname}
             typeOfValue="Surname"
             required
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.name.last = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="surname"
           />
 
           <InputText
-            value={userData.login.username}
+            value={userData.username}
             typeOfValue="Username"
             required
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.login.username = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="username"
           />
           <InputText
             value={userData.email}
             typeOfValue="Email"
             typeOfInput="email"
             required
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.email = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="email"
           />
           <InputText
-            value={userData.dob.date.slice(0, 19)}
+            value={userData.date.slice(0, 19)}
             typeOfValue="Date"
             typeOfInput="datetime-local"
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.dob.date = eventValue
-
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="date"
           />
 
           <InputText
-            value={userData.location.country}
+            value={userData.country}
             typeOfValue="Country"
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.location.country = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="country"
           />
           <InputText
             value={userData.phone}
             typeOfValue="Phone"
             typeOfInput="tel"
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.phone = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="phone"
           />
           <InputText
-            value={userData.login.password}
+            value={userData.password}
             typeOfValue="Password"
             typeOfInput="password"
             required
-            onChange={setUserData}
-            accessToAnObject={(eventValue) =>
-              produce((draft) => {
-                draft.login.password = eventValue
-                return draft
-              })
-            }
+            onChange={handleFieldChange}
+            name="password"
           />
         </Modal.Body>
         <Modal.Footer>

@@ -1,0 +1,10 @@
+.toolbar {
+  display: flex;
+  justify-content: left;
+  margin: 30px;
+}
+
+.button {
+  height: 38px;
+  margin-top: 32px;
+}

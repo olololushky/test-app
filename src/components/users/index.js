@@ -34,7 +34,7 @@ const Users = ({ users, loading, loaded, loadUsers }) => {
 
       {users &&
         users.map((user) => (
-          <User user={user} key={user.login.uuid} handleShow={handleShow} />
+          <User user={user} key={user.id} handleShow={handleShow} />
         ))}
       {/* отрисовка корточек пользователей */}
       {!loading && loaded && !users.length ? <h3>Нет совпадений</h3> : ''}
@@ -43,8 +43,8 @@ const Users = ({ users, loading, loaded, loadUsers }) => {
         {users.map((user) => (
           <Route 
           // роуты для юзеров при налии id в URL
-            key={user.login.uuid}
-            path={`/users/${user.login.uuid}`}
+            key={user.id}
+            path={`/users/${user.id}`}
             render={() => (
               <ModalForm
                 show={showModalForm}
@@ -72,9 +72,9 @@ const mapStateToProps = createStructuredSelector({
 Users.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({
-      login: PropTypes.shape({
-        uuid: PropTypes.string.isRequired,
-      }),
+
+        id: PropTypes.string.isRequired,
+
     }).isRequired
   ),
 }

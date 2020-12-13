@@ -13,9 +13,8 @@ import {
   SEARCH_USERS,
   RESET_FILTER,
 } from '../constants'
-import {initialState} from '../../config/init-constants'
-import {findMatch} from '../../service/find-match'
-
+import { initialState } from '../../config/init-constants'
+import { findMatch } from '../../service/find-match'
 
 export default produce((draft = initialState, action) => {
   const { type, payload, userId } = action
@@ -31,8 +30,8 @@ export default produce((draft = initialState, action) => {
       draft.loaded = true
       draft.entities = {
         ...draft.entities,
-        ...action.response,
-        filteredResults: [...action.response.results],
+        results: [...action.response],
+        filteredResults: [...action.response],
       }
       break
     }
@@ -48,7 +47,7 @@ export default produce((draft = initialState, action) => {
         entities: {
           ...draft.entities,
           filteredResults: draft.entities.filteredResults.filter(
-            (user) => user.login.uuid !== payload.userId
+            (user) => user.id !== payload.userId
           ),
         },
       }
@@ -59,34 +58,27 @@ export default produce((draft = initialState, action) => {
         entities: {
           ...draft.entities,
           results: draft.entities.results.map((user) => {
-            if (user.login.uuid === payload.user.login.uuid) {
+            if (user.id === payload.user.id) {
               return {
                 ...payload.user,
-                dob: {
-                  ...payload.user.dob,
-                  age:
-                    new Date().getFullYear() -
-                    new Date(Date.parse(payload.user.dob.date)).getFullYear(),
-                },
-                login: { ...payload.user.login, uuid: userId },
-                gender: payload.user.name.title === 'Mr' ? 'male' : 'female',
+                age:
+                  new Date().getFullYear() -
+                  new Date(Date.parse(payload.user.date)).getFullYear(),
+                gender: payload.user.title === 'Mr' ? 'male' : 'female',
               }
             } else {
               return user
             }
           }),
           filteredResults: draft.entities.results.map((user) => {
-            if (user.login.uuid === payload.user.login.uuid) {
+            if (user.id === payload.user.id) {
               return {
                 ...payload.user,
-                dob: {
-                  ...payload.user.dob,
-                  age:
-                    new Date().getFullYear() -
-                    new Date(Date.parse(payload.user.dob.date)).getFullYear(),
-                },
-                login: { ...payload.user.login, uuid: userId },
-                gender: payload.user.name.title === 'Mr' ? 'male' : 'female',
+                age:
+                  new Date().getFullYear() -
+                  new Date(Date.parse(payload.user.date)).getFullYear(),
+
+                gender: payload.user.title === 'Mr' ? 'male' : 'female',
               }
             } else {
               return user
@@ -103,28 +95,23 @@ export default produce((draft = initialState, action) => {
             ...draft.entities.results,
             {
               ...payload.user,
-              dob: {
-                ...payload.user.dob,
-                age:
-                  new Date().getFullYear() -
-                  new Date(Date.parse(payload.user.dob.date)).getFullYear(),
-              },
-              login: { ...payload.user.login, uuid: userId },
-              gender: payload.user.name.title === 'Mr' ? 'male' : 'female',
+              age:
+                new Date().getFullYear() -
+                new Date(Date.parse(payload.user.date)).getFullYear(),
+
+              id: userId,
+              gender: payload.user.title === 'Mr' ? 'male' : 'female',
             },
           ],
           filteredResults: [
             ...draft.entities.results,
             {
               ...payload.user,
-              dob: {
-                ...payload.user.dob,
-                age:
-                  new Date().getFullYear() -
-                  new Date(Date.parse(payload.user.dob.date)).getFullYear(),
-              },
-              login: { ...payload.user.login, uuid: userId },
-              gender: payload.user.name.title === 'Mr' ? 'male' : 'female',
+              age:
+                new Date().getFullYear() -
+                new Date(Date.parse(payload.user.date)).getFullYear(),
+              id: userId,
+              gender: payload.user.title === 'Mr' ? 'male' : 'female',
             },
           ],
         },
@@ -143,7 +130,7 @@ export default produce((draft = initialState, action) => {
     }
     case FILTER_BY_AGE: {
       draft.entities.filteredResults = draft.entities.results.filter(
-        (user) => user.dob.age > 30
+        (user) => user.age > 30
       )
       break
     }

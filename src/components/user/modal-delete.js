@@ -13,7 +13,7 @@ function ModalDelete({show, handleCloseModalDelete, removeUser, user}) {
         onHide={handleCloseModalDelete}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{`Delete user ${user && user.login && user.login.username}?`}</Modal.Title>
+          <Modal.Title>{`Delete user ${user && user.username}?`}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           This action can not be undone. Are you sure?
@@ -22,7 +22,7 @@ function ModalDelete({show, handleCloseModalDelete, removeUser, user}) {
           <Button variant="secondary" onClick={handleCloseModalDelete}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={() => removeUser(user && user.login && user.login.uuid)}>Delete</Button>
+          <Button variant="danger" onClick={() => removeUser(user && user.id)}>Delete</Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -20,8 +20,8 @@ const User = ({ user, handleShow }) => {
         return 'white'
     }
   } //цвет заполнения круга сигнализируещего о поле юзера
-  const userName = `${user.name.title} ${user.name.first} ${user.name.last}`
-  const birthYear = new Date(user.dob.date).getFullYear() || 'Before our age'
+  const userName = `${user.title} ${user.name} ${user.surname}`
+  const birthYear = new Date(user.date).getFullYear() || 'Before our age'
   return (
     <div className="card" data-id="user">
       <div className="card-body">
@@ -31,16 +31,18 @@ const User = ({ user, handleShow }) => {
             <circle cx="10" cy="10" r="10" fill={fill()} />
           </svg>
         </h5>
-        <h6 className="card-subtitle mb-2 text-muted" data-id="user-username">{user.login.username}</h6>
+        <h6 className="card-subtitle mb-2 text-muted" data-id="user-username">
+          {user.username}
+        </h6>
       </div>
       <ul className="list-group list-group-flush">
         <li className="list-group-item">
           Email: <a href={`mailto:${user.email}`}>{user.email} </a>
         </li>
         <li className="list-group-item">Birth year: {birthYear}</li>
-        <li className="list-group-item">Age: {user.dob.age || 'Too old'} </li>
+        <li className="list-group-item">Age: {user.age || 'Too old'} </li>
         <li className="list-group-item">
-          Country: {user.location.country || 'Citizen of the world'}
+          Country: {user.country || 'Citizen of the world'}
         </li>
         <li
           className={`list-group-item ${
@@ -52,8 +54,8 @@ const User = ({ user, handleShow }) => {
         </li>
         <li className="list-group-item">
           Picture:{' '}
-          <a className="card-link" href={user.picture.large} target="blank">
-            {user.picture.large}
+          <a className="card-link" href={user.picture} target="blank">
+            {user.picture}
           </a>
         </li>
       </ul>
@@ -70,7 +72,7 @@ const User = ({ user, handleShow }) => {
 
         <Link
           className="btn btn-primary button"
-          to={`/users/${user.login.uuid}`}
+          to={`/users/${user.id}`}
           onClick={handleShow}
           style={{ marginLeft: '10px' }}
         >
@@ -88,11 +90,9 @@ const User = ({ user, handleShow }) => {
 
 User.propTypes = {
   user: PropTypes.shape({
-    name: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      first: PropTypes.string.isRequired,
-      last: PropTypes.string.isRequired,
-    }),
+    title: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    surname: PropTypes.string.isRequired,
   }).isRequired,
 }
 
