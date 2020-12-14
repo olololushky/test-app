@@ -1,6 +1,6 @@
-const serviceMethod = async (param) => {
+const serviceMethod = async (param = 10) => {
   //сервисный файл для загрузки данных о пользователях
-  const url = 'https://randomuser.me/api/?results=10'
+  const url = `https://randomuser.me/api/?results=${param}`
   const response = await fetch(url)
 
   if (!response.ok) {
