@@ -53,7 +53,7 @@ const User = ({ user, handleShow }) => {
           Phone: {user.phone || 'No Phone'} <br />
         </li>
         <li className="list-group-item">
-          Picture:{' '}
+          {`Picture: `}
           <a className="card-link" href={user.picture} target="blank">
             {user.picture}
           </a>
@@ -67,7 +67,8 @@ const User = ({ user, handleShow }) => {
             handleShowModalDelete() //при нажатии отображается модальное окно с информацией об удалении
           }}
         >
-          Delete User
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          {` Delete`}
         </button>
 
         <Link
@@ -76,7 +77,8 @@ const User = ({ user, handleShow }) => {
           onClick={handleShow}
           style={{ marginLeft: '10px' }}
         >
-          Edit User
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          {` Edit`}
         </Link>
         <ModalDelete
           show={showModalDelete}
