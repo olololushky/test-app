@@ -21,14 +21,12 @@ const ModalForm = ({
   const onSubmit = () => {
     switch (typeOfAction) {
       case 'editUser':
-        return () => {
-          editUser(userData)
-        }
+        editUser(userData)
+        break
       case 'addUser':
-        return () => {
-          addUser(userData)
-          setUserData(user) // при добавлении нового пользователя так же происходит сброс данных в state
-        }
+        addUser(userData)
+        setUserData(user) // при добавлении нового пользователя так же происходит сброс данных в state
+        break
       default:
         break
     }
@@ -49,13 +47,11 @@ const ModalForm = ({
     }
   }
 
-  const handleFieldChange = (value, name, type) => {
-    console.log('type: ', value.target.value)
+  const handleFieldChange = (value, name) => {
     setUserData({
       ...userData,
       [name]: value.target.value,
     })
-    console.log(userData)
   }
 
   return (
@@ -68,7 +64,7 @@ const ModalForm = ({
         onSubmit={(event) => {
           event.preventDefault()
           onHide()
-          onSubmit()()
+          onSubmit()
         }}
       >
         <Modal.Body>

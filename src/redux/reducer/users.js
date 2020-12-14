@@ -13,8 +13,32 @@ import {
   SEARCH_USERS,
   RESET_FILTER,
 } from '../constants'
-import { initialState } from '../../config/init-constants'
 import { findMatch } from '../../service/find-match'
+
+export const initialUser = {
+  title: '',
+  name: '',
+  surname: '',
+  username: '',
+  email: '',
+  date: '',
+  country: '',
+  phone: '',
+  login: '',
+  id: '',
+  gender: '',
+  age: '',
+  picture: '',
+  password: '',
+}
+
+export const initialState = {
+  loading: false,
+  loaded: false,
+  error: null,
+  initialUser,
+  entities: { results: [], filteredResults: [] },
+}
 
 export default produce((draft = initialState, action) => {
   const { type, payload, userId } = action
@@ -47,6 +71,9 @@ export default produce((draft = initialState, action) => {
         entities: {
           ...draft.entities,
           filteredResults: draft.entities.filteredResults.filter(
+            (user) => user.id !== payload.userId
+          ),
+          results: draft.entities.results.filter(
             (user) => user.id !== payload.userId
           ),
         },

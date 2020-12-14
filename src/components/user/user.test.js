@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme';
-import {initialUser} from '../../config/init-constants'
+import {initialUser} from '../../redux/reducer/users'
 import User from './index'
 
 describe('User', () => {

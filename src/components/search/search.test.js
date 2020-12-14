@@ -1,7 +1,7 @@
 import React from 'react';
 import Search from './index'
 import { shallow } from 'enzyme';
-import {initialState} from '../../config/init-constants'
+import {initialState} from '../../redux/reducer/users'
 import configureStore from 'redux-mock-store'
  
 describe ('Search', () => {

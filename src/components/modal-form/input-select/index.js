@@ -5,7 +5,6 @@ const InputSelect = ({
   typeOfValue,
   options,
   onChange,
-  accessToAnObject,
   required = false,
   name,
 }) => (
