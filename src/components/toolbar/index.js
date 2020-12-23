@@ -5,8 +5,10 @@ import ModalForm from '../modal-form'
 import { connect } from 'react-redux'
 import { initialUserSelector } from '../../redux/selectors'
 import { createStructuredSelector } from 'reselect'
-import { Link, Route, useLocation } from 'react-router-dom'
+import { Route, useLocation } from 'react-router-dom'
 import './style.css'
+import LinkButton from './link'
+import Button from '@material-ui/core/Button'
 
 const Toolbar = ({ initialUser }) => {
   const [showModalForm, setShowModalForm] = useState(false) //индикатор открытия модальной формы добавления пользователя и обработчики
@@ -25,13 +27,9 @@ const Toolbar = ({ initialUser }) => {
     <div className="toolbar">
       <Search />
       <DropdownFilter />
-      <Link
-        className="btn btn-primary button"
-        to="/users/add-user"
-        onClick={handleShow}
-      >
-        Add User
-      </Link>
+      <Button className="button">
+        <LinkButton handleShow={handleShow} />
+      </Button>
       <Route
         path="/users/add-user"
         render={() => (
