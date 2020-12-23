@@ -1,18 +1,15 @@
-import produce from 'immer'
+import { createReducer } from '@reduxjs/toolkit'
 import {
-  LOAD_USERS,
-  REQUEST,
-  SUCCESS,
-  FAILURE,
-  REMOVE_USER,
-  EDIT_USER,
-  ADD_USER,
-  FILTER_BY_GENDER_MALE,
-  FILTER_BY_GENDER_FEMALE,
-  FILTER_BY_AGE,
-  SEARCH_USERS,
-  RESET_FILTER,
-} from '../constants'
+  addUser,
+  editUser,
+  filterByAge,
+  filterByFemale,
+  filterByMale,
+  removeUser,
+  resetFilter,
+  searchUsers,
+} from '../actions'
+import { LOAD_USERS, REQUEST, SUCCESS, FAILURE } from '../constants'
 import { findMatch } from '../../service/find-match'
 
 export const initialUser = {
@@ -40,72 +37,67 @@ export const initialState = {
   entities: { results: [], filteredResults: [] },
 }
 
-export default produce((draft = initialState, action) => {
-  const { type, payload, userId } = action
-
-  switch (type) {
-    case LOAD_USERS + REQUEST: {
-      draft.error = null
-      draft.loading = true
-      break
-    }
-    case LOAD_USERS + SUCCESS: {
-      draft.loading = false
-      draft.loaded = true
-      draft.entities = {
-        ...draft.entities,
+export default createReducer(initialState, (builder) => {
+  builder
+    .addCase(LOAD_USERS + REQUEST, (state, action) => {
+      state.error = null
+      state.loading = true
+    })
+    .addCase(LOAD_USERS + SUCCESS, (state, action) => {
+      state.loading = false
+      state.loaded = true
+      state.entities = {
+        ...state.entities,
         results: [...action.response],
         filteredResults: [...action.response],
       }
-      break
-    }
-    case LOAD_USERS + FAILURE: {
-      draft.loading = false
-      draft.loaded = false
-      draft.error = action.err
-      break
-    }
-    case REMOVE_USER: {
+    })
+    .addCase(LOAD_USERS + FAILURE, (state, action) => {
+      state.loading = false
+      state.loaded = false
+      state.error = action.err
+    })
+    .addCase(removeUser, (state, action) => {
       return {
-        ...draft,
+        ...state,
         entities: {
-          ...draft.entities,
-          filteredResults: draft.entities.filteredResults.filter(
-            (user) => user.id !== payload.userId
+          ...state.entities,
+          filteredResults: state.entities.filteredResults.filter(
+            (user) => user.id !== action.payload.userId
           ),
-          results: draft.entities.results.filter(
-            (user) => user.id !== payload.userId
+          results: state.entities.results.filter(
+            (user) => user.id !== action.payload.userId
           ),
         },
       }
-    }
-    case EDIT_USER:
+    })
+    .addCase(editUser, (state, action) => {
       return {
-        ...draft,
+        ...state,
         entities: {
-          ...draft.entities,
-          results: draft.entities.results.map((user) => {
-            if (user.id === payload.user.id) {
+          ...state.entities,
+          results: state.entities.results.map((user) => {
+            if (user.id === action.payload.user.id) {
               return {
-                ...payload.user,
+                ...action.payload.user,
                 age:
                   new Date().getFullYear() -
-                  new Date(Date.parse(payload.user.date)).getFullYear(),
-                gender: payload.user.title === 'Mr' ? 'male' : 'female',
+                  new Date(Date.parse(action.payload.user.date)).getFullYear(),
+                gender: action.payload.user.title === 'Mr' ? 'male' : 'female',
               }
             } else {
               return user
             }
           }),
-          filteredResults: draft.entities.results.map((user) => {
-            if (user.id === payload.user.id) {
+          filteredResults: state.entities.results.map((user) => {
+            if (user.id === action.payload.user.id) {
               return {
-                ...payload.user,
+                ...action.payload.user,
                 age:
                   new Date().getFullYear() -
-                  new Date(Date.parse(payload.user.date)).getFullYear(),
+                  new Date(Date.parse(action.payload.user.date)).getFullYear(),
 
-                gender: payload.user.title === 'Mr' ? 'male' : 'female',
+                gender: action.payload.user.title === 'Mr' ? 'male' : 'female',
               }
             } else {
               return user
@@ -113,67 +105,59 @@ export default produce((draft = initialState, action) => {
           }),
         },
       }
-    case ADD_USER:
+    })
+    .addCase(addUser, (state, action) => {
       return {
-        ...draft,
+        ...state,
         entities: {
-          ...draft.entities,
+          ...state.entities,
           results: [
-            ...draft.entities.results,
+            ...state.entities.results,
             {
-              ...payload.user,
+              ...action.payload.user,
               age:
                 new Date().getFullYear() -
-                new Date(Date.parse(payload.user.date)).getFullYear(),
+                new Date(Date.parse(action.payload.user.date)).getFullYear(),
 
-              id: userId,
-              gender: payload.user.title === 'Mr' ? 'male' : 'female',
+              id: action.payload.generateId?.userId,
+              gender: action.payload.user.title === 'Mr' ? 'male' : 'female',
             },
           ],
           filteredResults: [
-            ...draft.entities.results,
+            ...state.entities.results,
             {
-              ...payload.user,
+              ...action.payload.user,
               age:
                 new Date().getFullYear() -
-                new Date(Date.parse(payload.user.date)).getFullYear(),
-              id: userId,
-              gender: payload.user.title === 'Mr' ? 'male' : 'female',
+                new Date(Date.parse(action.payload.user.date)).getFullYear(),
+              id: action.payload.generateId?.userId,
+              gender: action.payload.user.title === 'Mr' ? 'male' : 'female',
             },
           ],
         },
       }
-    case FILTER_BY_GENDER_MALE: {
-      draft.entities.filteredResults = draft.entities.results.filter(
+    })
+    .addCase(filterByMale, (state) => {
+      state.entities.filteredResults = state.entities.results.filter(
         (user) => user.gender === 'male'
       )
-      break
-    }
-    case FILTER_BY_GENDER_FEMALE: {
-      draft.entities.filteredResults = draft.entities.results.filter(
+    })
+    .addCase(filterByFemale, (state) => {
+      state.entities.filteredResults = state.entities.results.filter(
         (user) => user.gender === 'female'
       )
-      break
-    }
-    case FILTER_BY_AGE: {
-      draft.entities.filteredResults = draft.entities.results.filter(
+    })
+    .addCase(filterByAge, (state) => {
+      state.entities.filteredResults = state.entities.results.filter(
         (user) => user.age > 30
       )
-      break
-    }
-    case RESET_FILTER: {
-      draft.entities.filteredResults = draft.entities.results
-      break
-    }
-
-    case SEARCH_USERS: {
-      draft.entities.filteredResults = draft.entities.results.filter((user) =>
-        findMatch(user, payload.searchParam)
+    })
+    .addCase(resetFilter, (state) => {
+      state.entities.filteredResults = state.entities.results
+    })
+    .addCase(searchUsers, (state, action) => {
+      state.entities.filteredResults = state.entities.results.filter((user) =>
+        findMatch(user, action.payload.searchParam)
       )
-
-      break
-    }
-    default:
-      return draft
-  }
+    })
 })

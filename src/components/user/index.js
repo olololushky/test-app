@@ -67,7 +67,7 @@ const User = ({ user, handleShow }) => {
             handleShowModalDelete() //при нажатии отображается модальное окно с информацией об удалении
           }}
         >
-          <i class="fa fa-trash" aria-hidden="true"></i>
+          <i className="fa fa-trash" aria-hidden="true"></i>
           {` Delete`}
         </button>
 
@@ -77,7 +77,7 @@ const User = ({ user, handleShow }) => {
           onClick={handleShow}
           style={{ marginLeft: '10px' }}
         >
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
           {` Edit`}
         </Link>
         <ModalDelete

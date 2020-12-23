@@ -1,12 +1,4 @@
-export const REMOVE_USER = 'REMOVE_USER';
-export const ADD_USER = 'ADD_USER';
-export const EDIT_USER = 'EDIT_USER';
 export const LOAD_USERS = 'LOAD_USERS';
-export const FILTER_BY_GENDER_MALE = 'FILTER_BY_GENDER_MALE';
-export const FILTER_BY_GENDER_FEMALE = 'FILTER_BY_GENDER_FEMALE';
-export const FILTER_BY_AGE = 'FILTER_BY_AGE';
 export const REQUEST = '_REQUEST';
 export const SUCCESS = '_SUCCESS';
 export const FAILURE = '_FAILURE';
-export const SEARCH_USERS = 'SEARCH_USERS';
-export const RESET_FILTER = 'RESET_FILTER';

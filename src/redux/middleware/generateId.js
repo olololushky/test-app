@@ -1,13 +1,20 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 
-const generateId = (store) => (next) => (action) => { //генерирование уникального ключа для новых пользователей
-  if (!action.generateId) return next(action);
+const generateId = (store) => (next) => (action) => {
+  //генерирование уникального ключа для новых пользователей
+  if (!action?.payload?.generateId) return next(action)
 
-  const { generateId, ...rest } = action;
+  const { payload, ...rest } = action
   next({
     ...rest,
-    ...generateId.reduce((acc, key) => ({ ...acc, [key]: uuid() }), {}),
-  });
-};
+    payload: {
+      ...payload,
+      generateId: payload.generateId.reduce(
+        (acc, key) => ({ ...acc, [key]: uuid() }),
+        {}
+      ),
+    },
+  })
+}
 
-export default generateId;
+export default generateId

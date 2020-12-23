@@ -4,59 +4,39 @@ import {
   FAILURE,
   SUCCESS,
   REQUEST,
-  REMOVE_USER,
-  EDIT_USER,
-  ADD_USER,
-  FILTER_BY_GENDER_MALE,
-  FILTER_BY_GENDER_FEMALE,
-  FILTER_BY_AGE,
-  SEARCH_USERS,
-  RESET_FILTER,
-} from './constants';
+} from './constants'
+import { createAction } from '@reduxjs/toolkit'
+
+export const filterByMale = createAction('FILTER_BY_GENDER_MALE')
+
+export const filterByFemale = createAction('FILTER_BY_GENDER_FEMALE')
+
+export const filterByAge = createAction('FILTER_BY_AGE')
+
+export const resetFilter = createAction('RESET_FILTER')
+
+export const searchUsers = createAction('SEARCH_USERS', (searchParam) => ({
+  payload: { searchParam },
+}))
+
+export const addUser = createAction('ADD_USER', (user) => ({
+  payload: { user: { ...user }, generateId: ['userId'] },
+}))
+
+export const editUser = createAction('EDIT_USER', (user) => ({
+  payload: { user },
+}))
+
+export const removeUser = createAction('REMOVE_USER', (userId) => ({
+  payload: { userId },
+}))
 
 export const loadUsers = (params) => async (dispatch, getState) => {
-  dispatch({ type: LOAD_USERS + REQUEST });
+  dispatch({ type: LOAD_USERS + REQUEST })
   try {
-    const response = await serviceMethod(params);
-    setTimeout(dispatch, 1000, { type: LOAD_USERS + SUCCESS, response });
+    const response = await serviceMethod(params)
+    setTimeout(dispatch, 1000, { type: LOAD_USERS + SUCCESS, response })
   } catch (err) {
-    dispatch({ type: LOAD_USERS + FAILURE, err });
+    dispatch({ type: LOAD_USERS + FAILURE, err })
   }
-};
-
-export const removeUser = (userId) => ({
-  type: REMOVE_USER,
-  payload: { userId },
-});
-
-export const editUser = (user) => ({
-  type: EDIT_USER,
-  payload: { user },
-});
-
-export const addUser = (user) => ({
-  type: ADD_USER,
-  payload: { user },
-  generateId: ['userId'],
-});
-
-export const filterByMale = () => ({
-  type: FILTER_BY_GENDER_MALE,
-});
-
-export const filterByFemale = () => ({
-  type: FILTER_BY_GENDER_FEMALE,
-});
-
-export const filterByAge = () => ({
-  type: FILTER_BY_AGE,
-});
-
-export const searchUsers = (searchParam) => ({
-  type: SEARCH_USERS,
-  payload: {searchParam}
-})
-
-export const resetFilter = () => ({
-  type: RESET_FILTER,
-});
+}
