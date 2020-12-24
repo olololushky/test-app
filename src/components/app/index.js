@@ -3,6 +3,7 @@ import Header from '../header'
 import Users from '../users'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Toolbar from '../toolbar'
+import Footer from '../footer'
 
 class App extends React.Component {
   render() {
@@ -16,6 +17,7 @@ class App extends React.Component {
           <Route path="/users" component={Users} />
           <Route path="/" component={() => '404 - not found'} />
         </Switch>
+        <Footer/>
       </div>
     )
   }
