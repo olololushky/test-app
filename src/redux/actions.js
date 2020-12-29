@@ -1,10 +1,3 @@
-import serviceMethod from '../service/fetch-users';
-import {
-  LOAD_USERS,
-  FAILURE,
-  SUCCESS,
-  REQUEST,
-} from './constants'
 import { createAction } from '@reduxjs/toolkit'
 
 export const filterByMale = createAction('FILTER_BY_GENDER_MALE')
@@ -31,12 +24,12 @@ export const removeUser = createAction('REMOVE_USER', (userId) => ({
   payload: { userId },
 }))
 
-export const loadUsers = (params) => async (dispatch, getState) => {
-  dispatch({ type: LOAD_USERS + REQUEST })
-  try {
-    const response = await serviceMethod(params)
-    setTimeout(dispatch, 1000, { type: LOAD_USERS + SUCCESS, response })
-  } catch (err) {
-    dispatch({ type: LOAD_USERS + FAILURE, err })
-  }
-}
+export const loadUsers = createAction('LOAD_USERS_REQUEST')
+
+export const loadUsersSuccess = createAction('LOAD_USERS_SUCCESS', (response) => ({
+  payload: {response}
+}))
+
+export const loadUsersError = createAction('LOAD_USERS_FAILURE', (err) => ({
+  payload: {err}
+}))

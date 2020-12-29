@@ -48,14 +48,14 @@ export default createReducer(initialState, (builder) => {
       state.loaded = true
       state.entities = {
         ...state.entities,
-        results: [...action.response],
-        filteredResults: [...action.response],
+        results: [...action.payload.response],
+        filteredResults: [...action.payload.response],
       }
     })
     .addCase(LOAD_USERS + FAILURE, (state, action) => {
       state.loading = false
       state.loaded = false
-      state.error = action.err
+      state.error = action.payload.err
     })
     .addCase(removeUser, (state, action) => {
       return {
